@@ -15,26 +15,23 @@ class MyHTMLParser(HTMLParser):
         self.canAdd = False
 
     def handle_starttag(self, tag, attrs):
-        # print "Encountered a start tag:", tag
         pass
 
     def handle_endtag(self, tag):
-        # print "Encountered an end tag :", tag
         pass
 
     def handle_data(self, data):
 
         # For names X Y
-        pattern2 = re.compile("[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\s[A-Z][a-z]+\Z")
+        pattern2 = re.compile("\A[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\s[A-Z][a-z]+\Z")
 
         # For names X-Y Z
-        patternAlt = re.compile("[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\-[A-Z][a-z]+\s[A-Z][a-z]+")
+        patternAlt = re.compile("\A[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\-[A-Z][a-z]+\s[A-Z][a-z]+\Z")
 
         # For names X Y Z
-        pattern3 = re.compile("[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+")
-        if pattern2.match(data) or patternAlt.match(data):
-            # print 'MATCH _ 1', self.mName + ', ' + self.tName
-            # print 'MATCH _ 2', data
+        pattern3 = re.compile("\A[A-Z][a-z]+\s[A-Z][a-z]+\,\s[A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+\Z")
+
+        if pattern2.match(data) or patternAlt.match(data) or pattern3.match(data):
             if data == self.mName + ', ' + self.tName or data == self.tName + ', ' + self.mName:
                 print 'DATA:', data
                 self.addMode = True
@@ -45,7 +42,7 @@ class MyHTMLParser(HTMLParser):
             self.canAdd = False
         if self.canAdd and self.addMode:
             self.dataList.append(data)
-        pattern = re.compile("[a-zA-z]+\,\s[a-zA-z]+\s[0-9]+\,\s[0-9]+\s[a-z]+\s[0-9]+\:[0-9]+[a-z]+\s[A-Z]+")
+        pattern = re.compile("\A[a-zA-z]+\,\s[a-zA-z]+\s[0-9]+\,\s[0-9]+\s[a-z]+\s[0-9]+\:[0-9]+[a-z]+\s[A-Z]+")
         if pattern.match(data):
             self.canAdd = True
 
