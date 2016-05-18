@@ -46,18 +46,17 @@ class MyHTMLParser(HTMLParser):
         if pattern.match(data):
             self.canAdd = True
 
-        # if data
-
-        # print "Encountered some data  :", data
 
     def getData(self):
         return self.dataList
 
 parser = argparse.ArgumentParser()
 parser.add_argument('name', type=str)
+parser.add_argument('your', type=str)
 args = parser.parse_args()
 name = args.name
-myHTMLParser = MyHTMLParser(name, 'Derek Chiu')
+your = args.your
+myHTMLParser = MyHTMLParser(name, your)
 html_file = open('messages.htm').read().decode("UTF-8").splitlines()
 
 
